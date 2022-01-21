@@ -25,6 +25,7 @@ const (
 	IndexFaissBinIvfFlat IndexType = "BIN_IVF_FLAT"
 	IndexNSG             IndexType = "NSG"
 	IndexHNSW            IndexType = "HNSW"
+	IndexHNSW2           IndexType = "HNSW2"
 	IndexRHNSWFlat       IndexType = "RHNSW_FLAT"
 	IndexRHNSWPQ         IndexType = "RHNSW_PQ"
 	IndexRHNSWSQ         IndexType = "RHNSW_SQ"

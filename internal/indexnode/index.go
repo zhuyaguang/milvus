@@ -167,6 +167,7 @@ func NewCIndex(typeParams, indexParams map[string]string) (Index, error) {
 	}
 	indexParamsStr := proto.MarshalTextString(protoIndexParams)
 
+	fmt.Println("==============show create index pa",typeParamsStr,indexParamsStr)
 	typeParamsPointer := C.CString(typeParamsStr)
 	indexParamsPointer := C.CString(indexParamsStr)
 	defer C.free(unsafe.Pointer(typeParamsPointer))
