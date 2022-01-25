@@ -356,6 +356,28 @@ func newHNSWConfAdapter() *HNSWConfAdapter {
 	return &HNSWConfAdapter{}
 }
 
+// HNSW2ConfAdapter checks if a hnsw index can be built.
+type HNSW2ConfAdapter struct {
+	BaseConfAdapter
+}
+
+// CheckTrain checks if a hnsw index can be built with specific parameters.
+func (adapter *HNSW2ConfAdapter) CheckTrain(params map[string]string) bool {
+	if !CheckIntByRange(params, EFConstruction, HNSWMinEfConstruction, HNSWMaxEfConstruction) {
+		return false
+	}
+
+	if !CheckIntByRange(params, HNSWM, HNSWMinM, HNSWMaxM) {
+		return false
+	}
+
+	return adapter.BaseConfAdapter.CheckTrain(params)
+}
+
+func newHNSW2ConfAdapter() *HNSW2ConfAdapter {
+	return &HNSW2ConfAdapter{}
+}
+
 // ANNOYConfAdapter checks if an ANNOY index can be built.
 type ANNOYConfAdapter struct {
 	BaseConfAdapter

@@ -94,7 +94,7 @@ VecIndexFactory::CreateVecIndex(const IndexType& type, const IndexMode mode) {
 #endif
     } else if (type == IndexEnum::INDEX_HNSW) {
         return std::make_shared<knowhere::IndexHNSW>();
-    } else if (type == IndexEnum::INDEX_HNSW) {
+    } else if (type == IndexEnum::INDEX_HNSW2) {
         return std::make_shared<knowhere::IndexHNSW2>();
     } else if (type == IndexEnum::INDEX_ANNOY) {
         return std::make_shared<knowhere::IndexAnnoy>();
