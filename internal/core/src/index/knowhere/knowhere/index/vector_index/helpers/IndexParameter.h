@@ -49,6 +49,11 @@ constexpr const char* efConstruction = "efConstruction";
 constexpr const char* M = "M";
 constexpr const char* ef = "ef";
 
+// NANG Params
+constexpr const char* K = "K";
+constexpr const char* iteration = "iter";
+constexpr const char* search_L = "L";
+
 // Annoy Params
 constexpr const char* n_trees = "n_trees";
 constexpr const char* search_k = "search_k";

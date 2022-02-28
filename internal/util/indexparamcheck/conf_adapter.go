@@ -96,6 +96,9 @@ const (
 	EFConstruction = "efConstruction"
 	HNSWM          = "M"
 
+	K = "K"
+	iteration =" iter"
+
 	PQM    = "PQM"
 	NTREES = "n_trees"
 
@@ -376,6 +379,28 @@ func (adapter *HNSW2ConfAdapter) CheckTrain(params map[string]string) bool {
 
 func newHNSW2ConfAdapter() *HNSW2ConfAdapter {
 	return &HNSW2ConfAdapter{}
+}
+
+// NANGConfAdapter checks if a hnsw index can be built.
+type NANGConfAdapter struct {
+	BaseConfAdapter
+}
+
+// CheckTrain checks if a hnsw index can be built with specific parameters.
+func (adapter *NANGConfAdapter) CheckTrain(params map[string]string) bool {
+	if !CheckIntByRange(params, K, 50, 500) {
+		return false
+	}
+
+	if !CheckIntByRange(params, iteration, 2, 30) {
+		return false
+	}
+
+	return adapter.BaseConfAdapter.CheckTrain(params)
+}
+
+func newNANGConfAdapter() *NANGConfAdapter {
+	return &NANGConfAdapter{}
 }
 
 // ANNOYConfAdapter checks if an ANNOY index can be built.

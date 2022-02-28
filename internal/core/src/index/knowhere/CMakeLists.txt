@@ -82,6 +82,7 @@ set(vector_index_srcs
         knowhere/index/vector_index/IndexRHNSW.cpp
         knowhere/index/vector_index/IndexHNSW.cpp
         knowhere/index/vector_index/IndexHNSW2.cpp
+        knowhere/index/vector_index/IndexNANG.cpp
         knowhere/index/vector_index/IndexRHNSWFlat.cpp
         knowhere/index/vector_index/IndexRHNSWSQ.cpp
         knowhere/index/vector_index/IndexRHNSWPQ.cpp

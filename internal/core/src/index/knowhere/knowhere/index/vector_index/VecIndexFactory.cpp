@@ -18,6 +18,7 @@
 #include "knowhere/index/vector_index/IndexBinaryIVF.h"
 #include "knowhere/index/vector_index/IndexHNSW.h"
 #include "knowhere/index/vector_index/IndexHNSW2.h"
+#include "knowhere/index/vector_index/IndexNANG.h"
 #include "knowhere/index/vector_index/IndexIDMAP.h"
 #include "knowhere/index/vector_index/IndexIVF.h"
 #include "knowhere/index/vector_index/IndexIVFPQ.h"
@@ -96,6 +97,8 @@ VecIndexFactory::CreateVecIndex(const IndexType& type, const IndexMode mode) {
         return std::make_shared<knowhere::IndexHNSW>();
     } else if (type == IndexEnum::INDEX_HNSW2) {
         return std::make_shared<knowhere::IndexHNSW2>();
+    }   else if (type == IndexEnum::INDEX_NANG) {
+        return std::make_shared<knowhere::IndexNANG>();
     } else if (type == IndexEnum::INDEX_ANNOY) {
         return std::make_shared<knowhere::IndexAnnoy>();
     } else if (type == IndexEnum::INDEX_RHNSWFlat) {

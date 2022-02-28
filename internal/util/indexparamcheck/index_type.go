@@ -26,6 +26,7 @@ const (
 	IndexNSG             IndexType = "NSG"
 	IndexHNSW            IndexType = "HNSW"
 	IndexHNSW2           IndexType = "HNSW2"
+	IndexNANG            IndexType = "NANG"
 	IndexRHNSWFlat       IndexType = "RHNSW_FLAT"
 	IndexRHNSWPQ         IndexType = "RHNSW_PQ"
 	IndexRHNSWSQ         IndexType = "RHNSW_SQ"
