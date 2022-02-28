@@ -52,6 +52,7 @@ class IndexWrapperTest : public ::testing::TestWithParam<Param> {
             {milvus::knowhere::IndexEnum::INDEX_SPTAG_BKT_RNT, false},
 #endif
             {milvus::knowhere::IndexEnum::INDEX_HNSW, false},
+            {milvus::knowhere::IndexEnum::INDEX_NANG, false},
             {milvus::knowhere::IndexEnum::INDEX_ANNOY, false},
             {milvus::knowhere::IndexEnum::INDEX_RHNSWFlat, false},
             {milvus::knowhere::IndexEnum::INDEX_RHNSWPQ, false},
@@ -388,6 +389,7 @@ INSTANTIATE_TEST_CASE_P(
         std::pair(milvus::knowhere::IndexEnum::INDEX_SPTAG_BKT_RNT, milvus::knowhere::Metric::L2),
 #endif
         std::pair(milvus::knowhere::IndexEnum::INDEX_HNSW, milvus::knowhere::Metric::L2),
+        std::pair(milvus::knowhere::IndexEnum::INDEX_NANG, milvus::knowhere::Metric::L2),
         std::pair(milvus::knowhere::IndexEnum::INDEX_ANNOY, milvus::knowhere::Metric::L2),
         std::pair(milvus::knowhere::IndexEnum::INDEX_RHNSWFlat, milvus::knowhere::Metric::L2),
         std::pair(milvus::knowhere::IndexEnum::INDEX_RHNSWPQ, milvus::knowhere::Metric::L2),

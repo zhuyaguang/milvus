@@ -131,6 +131,15 @@ generate_conf(const milvus::knowhere::IndexType& index_type, const milvus::knowh
             {milvus::knowhere::IndexParams::M, 16},   {milvus::knowhere::IndexParams::efConstruction, 200},
             {milvus::knowhere::IndexParams::ef, 200}, {milvus::knowhere::Metric::TYPE, metric_type},
         };
+    } else if (index_type == milvus::knowhere::IndexEnum::INDEX_NANG) {
+        return milvus::knowhere::Config{
+            {milvus::knowhere::meta::DIM, DIM},        {milvus::knowhere::meta::TOPK, K},
+            {milvus::knowhere::IndexParams::K, 200},   {milvus::knowhere::IndexParams::L, 220},
+            {milvus::knowhere::IndexParams::iter, 12}, {milvus::knowhere::IndexParams::S, 25},
+            {milvus::knowhere::IndexParams::R, 200},   {milvus::knowhere::IndexParams::RANGE, 40},
+            {milvus::knowhere::IndexParams::PL, 50},   {milvus::knowhere::IndexParams::B, 16},   
+            {milvus::knowhere::IndexParams::M_NANG, 1.0},   {milvus::knowhere::Metric::TYPE, metric_type}
+        };
     } else if (index_type == milvus::knowhere::IndexEnum::INDEX_ANNOY) {
         return milvus::knowhere::Config{
             {milvus::knowhere::meta::DIM, DIM},

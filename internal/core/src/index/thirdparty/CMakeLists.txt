@@ -51,6 +51,7 @@ endif()
 # ****************************** Thirdparty NGT ***************************************
 add_subdirectory(NGT)
 
+
 # ****************************** Thirdparty Faiss ***************************************
 set(FAISS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/faiss)
 

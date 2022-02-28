@@ -107,6 +107,7 @@ set(ALL_INDEXING_SRCS
         test_binaryivf.cpp
         test_nsg.cpp
         test_hnsw.cpp
+        test_NANG.cpp
         test_rhnsw_flat.cpp
         test_rhnsw_pq.cpp
         test_rhnsw_sq8.cpp

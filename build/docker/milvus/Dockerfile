@@ -34,7 +34,8 @@ ENV PATH=/milvus/bin:$PATH
 ENV LD_LIBRARY_PATH=/milvus/lib:$LD_LIBRARY_PATH:/usr/lib
 
 # Add Tini
-ADD https://github.com/krallin/tini/releases/download/v0.19.0/tini /tini
+COPY ./tini /tini
+#ADD https://github.com/krallin/tini/releases/download/v0.19.0/tini /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 

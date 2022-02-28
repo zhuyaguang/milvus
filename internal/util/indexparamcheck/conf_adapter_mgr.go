@@ -55,6 +55,7 @@ func (mgr *ConfAdapterMgrImpl) registerConfAdapter() {
 	mgr.adapters[IndexNSG] = newNSGConfAdapter()
 	mgr.adapters[IndexHNSW] = newHNSWConfAdapter()
 	mgr.adapters[IndexHNSW2] = newHNSW2ConfAdapter()
+	mgr.adapters[IndexNANG] = newNANGConfAdapter()
 	mgr.adapters[IndexANNOY] = newANNOYConfAdapter()
 	mgr.adapters[IndexRHNSWFlat] = newRHNSWFlatConfAdapter()
 	mgr.adapters[IndexRHNSWPQ] = newRHNSWPQConfAdapter()

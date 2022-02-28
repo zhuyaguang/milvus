@@ -84,6 +84,17 @@ IndexWrapper::parse_impl(const std::string& serialized_params_str, knowhere::Con
     check_parameter<int>(conf, milvus::knowhere::IndexParams::M, stoi_closure, std::nullopt);
     check_parameter<int>(conf, milvus::knowhere::IndexParams::ef, stoi_closure, std::nullopt);
 
+    /************************** NANG Params *****************************/
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::K, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::L, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::iter, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::S, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::R, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::RANGE, stoi_closure, std::nullopt);
+    //check_parameter<int>(conf, milvus::knowhere::IndexParams::PL, stoi_closure, std::nullopt);
+    //check_parameter<float>(conf, milvus::knowhere::IndexParams::B, stof_closure, std::nullopt);
+    //check_parameter<float>(conf, milvus::knowhere::IndexParams::M_NANG, stof_closure, std::nullopt);
+
     /************************** Annoy Params *****************************/
     check_parameter<int>(conf, milvus::knowhere::IndexParams::n_trees, stoi_closure, std::nullopt);
     check_parameter<int>(conf, milvus::knowhere::IndexParams::search_k, stoi_closure, std::nullopt);

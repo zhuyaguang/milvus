@@ -18,6 +18,7 @@ package indexparamcheck
 
 import (
 	"strconv"
+    "fmt"
 
 	"github.com/milvus-io/milvus/internal/util/funcutil"
 )
@@ -50,6 +51,7 @@ func CheckIntByRange(params map[string]string, key string, min, max int) bool {
 func CheckStrByValues(params map[string]string, key string, container []string) bool {
 	value, ok := params[key]
 	if !ok {
+        fmt.Println("CheckStrByValues")
 		return false
 	}
 

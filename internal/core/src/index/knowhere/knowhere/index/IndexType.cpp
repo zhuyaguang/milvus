@@ -35,6 +35,7 @@ const char* INDEX_SPTAG_BKT_RNT = "SPTAG_BKT_RNT";
 #endif
 const char* INDEX_HNSW = "HNSW";
 const char* INDEX_HNSW2 = "HNSW2";
+const char* INDEX_NANG = "NANG";
 const char* INDEX_RHNSWFlat = "RHNSW_FLAT";
 const char* INDEX_RHNSWPQ = "RHNSW_PQ";
 const char* INDEX_RHNSWSQ = "RHNSW_SQ";

@@ -53,6 +53,7 @@ std::vector<std::string>
 Need_BuildAll_list() {
     static std::vector<std::string> ret{
         milvus::knowhere::IndexEnum::INDEX_NSG,
+        milvus::knowhere::IndexEnum::INDEX_NANG,
     };
     return ret;
 }
