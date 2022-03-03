@@ -17,6 +17,7 @@
 package indexparamcheck
 
 import (
+    "fmt"
 	"strconv"
 
 	"github.com/milvus-io/milvus/internal/util/funcutil"
@@ -97,7 +98,7 @@ const (
 	HNSWM          = "M"
 
 	K = "K"
-	iteration =" iter"
+	iter =" iter"
 
 	PQM    = "PQM"
 	NTREES = "n_trees"
@@ -388,13 +389,16 @@ type NANGConfAdapter struct {
 
 // CheckTrain checks if a hnsw index can be built with specific parameters.
 func (adapter *NANGConfAdapter) CheckTrain(params map[string]string) bool {
-	if !CheckIntByRange(params, K, 50, 500) {
-		return false
-	}
+	// if !CheckIntByRange(params, K, 50, 500) {
+    //    fmt.Println("CheckIntByRange1")
+	// 	return false
+	// }
 
-	if !CheckIntByRange(params, iteration, 2, 30) {
-		return false
-	}
+	// if !CheckIntByRange(params, iter, 2, 30) {
+    //    fmt.Println("CheckIntByRange2")
+	// 	return false
+	// }
+    fmt.Println("CheckTrain")
 
 	return adapter.BaseConfAdapter.CheckTrain(params)
 }

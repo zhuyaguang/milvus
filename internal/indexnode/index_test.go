@@ -37,6 +37,7 @@ const (
 	IndexNsg             = "NSG"
 
 	IndexHNSW      = "HNSW"
+	IndexNANG      = "NANG"
 	IndexRHNSWFlat = "RHNSW_FLAT"
 	IndexRHNSWPQ   = "RHNSW_PQ"
 	IndexRHNSWSQ   = "RHNSW_SQ"
@@ -63,6 +64,15 @@ const (
 	edgeSize       = 10
 	epsilon        = 0.1
 	maxSearchEdges = 50
+	K 			   = 200
+	L              = 220
+	iter 		   = 12
+	S 			   = 25
+	R 			   = 200
+	RANGE 		   = 40
+	PL             = 50
+	B              = 1.0
+	M_NANG 		   = 1.0
 )
 
 type testCase struct {
@@ -153,6 +163,17 @@ func generateParams(indexType, metricType string) (map[string]string, map[string
 		indexParams["m"] = strconv.Itoa(16)
 		indexParams["efConstruction"] = strconv.Itoa(efConstruction)
 		indexParams["ef"] = strconv.Itoa(ef)
+	} else if indexType == IndexNANG {
+		indexParams["dim"] = strconv.Itoa(dim)
+		indexParams["K"] = strconv.Itoa(K)
+		indexParams["L"] = strconv.Itoa(L)
+		indexParams["iter"] = strconv.Itoa(iter)
+		indexParams["S"] = strconv.Itoa(S)
+		indexParams["R"] = strconv.Itoa(R)
+		indexParams["RANGE"] = strconv.Itoa(RANGE)
+		indexParams["PL"] = strconv.Itoa(PL)
+		indexParams["B"] = strconv.FormatFloat(B'f',-1,32)
+		indexParams["M_NANG"] = strconv.FormatFloat(M_NANG,'f',-1,32)
 	} else if indexType == IndexRHNSWFlat {
 		indexParams["dim"] = strconv.Itoa(dim)
 		indexParams["m"] = strconv.Itoa(16)

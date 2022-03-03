@@ -306,15 +306,15 @@ HNSW2ConfAdapter::CheckSearch(Config& oricfg, const IndexType type, const IndexM
 
 bool
 NANGConfAdapter::CheckTrain(Config& oricfg, const IndexMode mode) {
-    CheckIntByRange(knowhere::IndexParams::iteration, 2, 30);
-    CheckIntByRange(knowhere::IndexParams::K, 50, 500);
+    //CheckIntByRange(knowhere::IndexParams::iter, 2, 30);
+    //CheckIntByRange(knowhere::IndexParams::K, 50, 500);
 
     return ConfAdapter::CheckTrain(oricfg, mode);
 }
 
 bool
 NANGConfAdapter::CheckSearch(Config& oricfg, const IndexType type, const IndexMode mode) {
-    CheckIntByRange(knowhere::IndexParams::search_L, oricfg[knowhere::meta::TOPK], 10000);
+    //CheckIntByRange(knowhere::IndexParams::search_L, oricfg[knowhere::meta::TOPK], 10000);
 
     return ConfAdapter::CheckSearch(oricfg, type, mode);
 }

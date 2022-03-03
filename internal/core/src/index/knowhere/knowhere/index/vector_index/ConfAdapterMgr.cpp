@@ -48,7 +48,7 @@ AdapterMgr::RegisterAdapter() {
 #endif
     REGISTER_CONF_ADAPTER(HNSWConfAdapter, IndexEnum::INDEX_HNSW, hnsw_adapter);
     REGISTER_CONF_ADAPTER(HNSW2ConfAdapter, IndexEnum::INDEX_HNSW2, hnsw2_adapter);
-    REGISTER_CONF_ADAPTER(HNSW2ConfAdapter, IndexEnum::INDEX_NANG, nang_adapter);
+    REGISTER_CONF_ADAPTER(NANGConfAdapter, IndexEnum::INDEX_NANG, nang_adapter);
     REGISTER_CONF_ADAPTER(ANNOYConfAdapter, IndexEnum::INDEX_ANNOY, annoy_adapter);
     REGISTER_CONF_ADAPTER(RHNSWFlatConfAdapter, IndexEnum::INDEX_RHNSWFlat, rhnswflat_adapter);
     REGISTER_CONF_ADAPTER(RHNSWPQConfAdapter, IndexEnum::INDEX_RHNSWPQ, rhnswpq_adapter);

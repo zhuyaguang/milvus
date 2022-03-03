@@ -51,7 +51,14 @@ constexpr const char* ef = "ef";
 
 // NANG Params
 constexpr const char* K = "K";
-constexpr const char* iteration = "iter";
+constexpr const char* L = "L";
+constexpr const char* iter = "iter";
+constexpr const char* S = "S";
+constexpr const char* R = "R";
+constexpr const char* RANGE = "RANGE";
+constexpr const char* PL = "PL";
+constexpr const char* B = "B";
+constexpr const char* M_NANG = "M";
 constexpr const char* search_L = "L";
 
 // Annoy Params

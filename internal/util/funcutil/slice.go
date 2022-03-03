@@ -16,7 +16,10 @@
 
 package funcutil
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 // SliceContain returns true if slice s contains item.
 func SliceContain(s, item interface{}) bool {
@@ -27,6 +30,7 @@ func SliceContain(s, item interface{}) bool {
 
 	for i := 0; i < ss.Len(); i++ {
 		if ss.Index(i).Interface() == item {
+            fmt.Println(ss.Index(i).Interface(),item)
 			return true
 		}
 	}

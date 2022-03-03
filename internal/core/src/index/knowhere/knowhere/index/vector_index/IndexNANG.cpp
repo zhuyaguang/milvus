@@ -65,7 +65,7 @@ IndexNANG::BuildAll(const DatasetPtr& origin, const Config& config) {
     paras.Set<unsigned>("RANGE", config["RANGE"].get<unsigned>());
     paras.Set<unsigned>("PL", config["PL"].get<unsigned>());
     paras.Set<float>("B", config["B"].get<float>());
-    paras.Set<float>("M", config["M"].get<float>());
+    paras.Set<float>("M_NANG", config["M"].get<float>());
     DatasetPtr dataset = origin;
     GET_TENSOR_DATA(dataset)
     index_->Build(rows, (float*)p_data, paras);
