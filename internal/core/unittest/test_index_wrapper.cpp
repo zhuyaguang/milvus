@@ -419,7 +419,6 @@ TEST_P(IndexWrapperTest, BuildWithoutIds) {
 TEST_P(IndexWrapperTest, Codec) {
     auto index =
         std::make_unique<milvus::indexbuilder::IndexWrapper>(type_params_str.c_str(), index_params_str.c_str());
-
     ASSERT_NO_THROW(index->BuildWithoutIds(xb_dataset));
 
     auto binary = index->Serialize();

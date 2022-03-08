@@ -98,6 +98,7 @@ VecIndexFactory::CreateVecIndex(const IndexType& type, const IndexMode mode) {
     } else if (type == IndexEnum::INDEX_HNSW2) {
         return std::make_shared<knowhere::IndexHNSW2>();
     }   else if (type == IndexEnum::INDEX_NANG) {
+        std::cout<<"create IndexNANG in VecIndexFactory.cpp"<<std::endl;
         return std::make_shared<knowhere::IndexNANG>();
     } else if (type == IndexEnum::INDEX_ANNOY) {
         return std::make_shared<knowhere::IndexAnnoy>();

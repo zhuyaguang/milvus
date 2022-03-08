@@ -12,6 +12,10 @@ namespace knowhere {
 
 class IndexNANG : public VecIndex {
  public:
+ IndexNANG()
+ {
+     std::cout<<"construct IndexNANG"<<std::endl;
+ }
     BinarySet
     Serialize(const Config& config) override;
 
@@ -31,7 +35,7 @@ class IndexNANG : public VecIndex {
         KNOWHERE_THROW_MSG("Incremental index NANG is not supported");
     }
     DatasetPtr
-    Query(const DatasetPtr& dataset_ptr, const Config& config, const faiss::BitsetView bitset) override;
+    Query(const DatasetPtr& dataset_ptr, const Config& config,const faiss::BitsetView bitset) override;
 
     int64_t
     Count() override;

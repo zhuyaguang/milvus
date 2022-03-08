@@ -120,7 +120,6 @@ IndexAnnoy::Query(const DatasetPtr& dataset_ptr, const Config& config, const fai
     auto all_num = rows * k;
     auto p_id = static_cast<int64_t*>(malloc(all_num * sizeof(int64_t)));
     auto p_dist = static_cast<float*>(malloc(all_num * sizeof(float)));
-
 #pragma omp parallel for
     for (unsigned int i = 0; i < rows; ++i) {
         std::vector<int64_t> result;

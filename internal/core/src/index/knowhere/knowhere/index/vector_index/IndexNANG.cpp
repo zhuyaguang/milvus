@@ -27,11 +27,9 @@ IndexNANG::Serialize(const Config& config) {
     if (!index_) {
         KNOWHERE_THROW_MSG("index not initialize or trained");
     }
-
     try {
         index_->saveIndex();
-        std::shared_ptr<uint8_t[]> data((uint8_t*)(index_->getOptGraph()));
-
+        std::shared_ptr<uint8_t[]> data((uint8_t*)(index_->getModelsave()));
         BinarySet res_set;
         res_set.Append("NANG", data, index_->getModelsize());
         if (config.contains(INDEX_FILE_SLICE_SIZE_IN_MEGABYTE)) {
@@ -48,6 +46,8 @@ IndexNANG::Load(const BinarySet& index_binary) {
     try {
         Assemble(const_cast<BinarySet&>(index_binary));
         auto binary = index_binary.GetByName("NANG");
+        efanna2e::IndexRandom init_index(123,123);
+        index_ = std::make_shared<efanna2e::IndexGraph>(efanna2e::L2, (efanna2e::Index *)(&init_index),123,123);
         index_->loadIndex((char*)(binary->data.get()));
     } catch (std::exception& e) {
         KNOWHERE_THROW_MSG(e.what());
@@ -56,27 +56,40 @@ IndexNANG::Load(const BinarySet& index_binary) {
 
 void
 IndexNANG::BuildAll(const DatasetPtr& origin, const Config& config) {
+    std::cout<<"config : "<< config<<std::endl;
     efanna2e::Parameters paras;
-    paras.Set<unsigned>("K", config["K"].get<unsigned>());
-    paras.Set<unsigned>("L", config["L"].get<unsigned>());
-    paras.Set<unsigned>("iter", config["iter"].get<unsigned>());
-    paras.Set<unsigned>("S", config["S"].get<unsigned>());
-    paras.Set<unsigned>("R", config["R"].get<unsigned>());
-    paras.Set<unsigned>("RANGE", config["RANGE"].get<unsigned>());
-    paras.Set<unsigned>("PL", config["PL"].get<unsigned>());
-    paras.Set<float>("B", config["B"].get<float>());
-    paras.Set<float>("M_NANG", config["M"].get<float>());
+    paras.Set<unsigned>("K", std::stoi(config[knowhere::IndexParams::K].get<std::string>()));
+    std::cout<<"K : "<<paras.Get<unsigned>("K")<<std::endl;
+    paras.Set<unsigned>("L", std::stoi(config[knowhere::IndexParams::L].get<std::string>()));
+    std::cout<<"L : "<<paras.Get<unsigned>("L")<<std::endl;
+    paras.Set<unsigned>("iter", std::stoi(config[knowhere::IndexParams::iter].get<std::string>()));
+    std::cout<<"iter : "<<paras.Get<unsigned>("iter")<<std::endl;
+    paras.Set<unsigned>("S",std::stoi(config[knowhere::IndexParams::S].get<std::string>()));
+    std::cout<<"S : "<<paras.Get<unsigned>("S")<<std::endl;
+    paras.Set<unsigned>("R", std::stoi(config[knowhere::IndexParams::R].get<std::string>()));
+    std::cout<<"R : "<<paras.Get<unsigned>("R")<<std::endl;
+    paras.Set<unsigned>("RANGE", std::stoi(config[knowhere::IndexParams::RANGE].get<std::string>()));
+    std::cout<<"RANGE : "<<paras.Get<unsigned>("RANGE")<<std::endl;
+    paras.Set<unsigned>("PL", std::stoi(config[knowhere::IndexParams::PL].get<std::string>()));
+    std::cout<<"PL : "<<paras.Get<unsigned>("PL")<<std::endl;
+    paras.Set<float>("B", std::stof(config[knowhere::IndexParams::B].get<std::string>()));
+    std::cout<<"B : "<<paras.Get<float>("B")<<std::endl;
+    paras.Set<float>("M", std::stof(config[knowhere::IndexParams::M_NANG].get<std::string>()));
+    std::cout<<"M : "<<paras.Get<float>("M")<<std::endl;
+    
     DatasetPtr dataset = origin;
-    GET_TENSOR_DATA(dataset)
+    GET_TENSOR_DATA_DIM(dataset)
+    efanna2e::IndexRandom init_index(dim,rows);
+    index_ = std::make_shared<efanna2e::IndexGraph>(efanna2e::L2, (efanna2e::Index *)(&init_index),dim,rows);
     index_->Build(rows, (float*)p_data, paras);
 }
 
 DatasetPtr
-IndexNANG::Query(const DatasetPtr& dataset_ptr, const Config& config, const faiss::BitsetView bitset) {
+IndexNANG::Query(const DatasetPtr& dataset_ptr, const Config& config,const faiss::BitsetView bitset) {
     efanna2e::Parameters paras;
-    paras.Set<unsigned>("L_search", config["L"].get<unsigned>());
+    paras.Set<unsigned>("L_search", std::stoi(config[knowhere::IndexParams::search_L].get<std::string>()));
     GET_TENSOR_DATA_DIM(dataset_ptr);
-    int search_k = config["search_k"].get<int>();
+    int search_k =  config[knowhere::meta::TOPK].get<int>();
     std::vector<std::vector<unsigned>> res(rows);
     std::vector<std::vector<float>> dis(rows);
     for (unsigned i = 0; i < rows; i++) {
@@ -87,7 +100,6 @@ IndexNANG::Query(const DatasetPtr& dataset_ptr, const Config& config, const fais
     for (auto i = 0; i < rows; ++i) {
         index_->SearchWithOptGraph(((float*)p_data) + i * dim, search_k, paras, res[i].data(), dis[i].data());
     }
-
     auto elems = search_k * rows;
     size_t p_id_size = sizeof(int64_t) * elems;
     size_t p_dist_size = sizeof(float) * elems;

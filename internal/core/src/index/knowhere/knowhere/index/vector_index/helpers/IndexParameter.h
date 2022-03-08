@@ -58,8 +58,8 @@ constexpr const char* R = "R";
 constexpr const char* RANGE = "RANGE";
 constexpr const char* PL = "PL";
 constexpr const char* B = "B";
-constexpr const char* M_NANG = "M";
-constexpr const char* search_L = "L";
+constexpr const char* M_NANG = "M_NANG";
+constexpr const char* search_L = "search_L";
 
 // Annoy Params
 constexpr const char* n_trees = "n_trees";

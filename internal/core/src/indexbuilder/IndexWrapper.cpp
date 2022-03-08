@@ -28,15 +28,20 @@ namespace milvus::indexbuilder {
 IndexWrapper::IndexWrapper(const char* serialized_type_params, const char* serialized_index_params) {
     type_params_ = std::string(serialized_type_params);
     index_params_ = std::string(serialized_index_params);
-
+    std::cout<<"before parse() in IndexWrapper.cpp"<<std::endl;
     parse();
-
+    std::cout<<"after parse() in IndexWrapper.cpp"<<std::endl;
     auto index_mode = get_index_mode();
     auto index_type = get_index_type();
+    std::cout<<"index_type : "<<index_type<<std::endl;
     auto metric_type = get_metric_type();
+    std::cout<<"metric_type : "<<metric_type<<std::endl;
     AssertInfo(!is_unsupported(index_type, metric_type), index_type + " doesn't support metric: " + metric_type);
 
+    std::cout<<"before CreateVecIndex() in IndexWrapper.cpp"<<std::endl;
     index_ = knowhere::VecIndexFactory::GetInstance().CreateVecIndex(get_index_type(), index_mode);
+    std::cout<<"after CreateVecIndex() in IndexWrapper.cpp"<<std::endl;
+
     AssertInfo(index_ != nullptr, "[IndexWrapper]Index is null after create index");
 }
 
@@ -85,15 +90,15 @@ IndexWrapper::parse_impl(const std::string& serialized_params_str, knowhere::Con
     check_parameter<int>(conf, milvus::knowhere::IndexParams::ef, stoi_closure, std::nullopt);
 
     /************************** NANG Params *****************************/
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::K, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::L, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::iter, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::S, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::R, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::RANGE, stoi_closure, std::nullopt);
-    //check_parameter<int>(conf, milvus::knowhere::IndexParams::PL, stoi_closure, std::nullopt);
-    //check_parameter<float>(conf, milvus::knowhere::IndexParams::B, stof_closure, std::nullopt);
-    //check_parameter<float>(conf, milvus::knowhere::IndexParams::M_NANG, stof_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::K, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::L, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::iter, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::S, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::R, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::RANGE, stoi_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::PL, stoi_closure, std::nullopt);
+    check_parameter<float>(conf, milvus::knowhere::IndexParams::B, stof_closure, std::nullopt);
+    check_parameter<float>(conf, milvus::knowhere::IndexParams::M_NANG, stof_closure, std::nullopt);
 
     /************************** Annoy Params *****************************/
     check_parameter<int>(conf, milvus::knowhere::IndexParams::n_trees, stoi_closure, std::nullopt);
@@ -128,8 +133,10 @@ IndexWrapper::parse() {
     parse_impl<indexcgo::TypeParams>(type_params_, type_config_);
     parse_impl<indexcgo::IndexParams>(index_params_, index_config_);
 
+    std::cout<<"before update() in IndexWrapper.cpp"<<std::endl;
     config_.update(type_config_);  // just like dict().update in Python, amazing
     config_.update(index_config_);
+    std::cout<<"after update() in IndexWrapper.cpp"<<std::endl;
 }
 
 template <typename T>
@@ -167,6 +174,7 @@ IndexWrapper::dim() {
 void
 IndexWrapper::BuildWithoutIds(const knowhere::DatasetPtr& dataset) {
     auto index_type = get_index_type();
+    std::cout<<"index_type123 : "<< index_type<<std::endl;
     auto index_mode = get_index_mode();
     config_[knowhere::meta::ROWS] = dataset->Get<int64_t>(knowhere::meta::ROWS);
     if (index_type == knowhere::IndexEnum::INDEX_FAISS_IVFPQ) {
@@ -256,7 +264,6 @@ IndexWrapper::Serialize() {
         // Disassemble will only divide the raw vectors, other keys were already divided
         knowhere::Disassemble(slice_size * 1024 * 1024, binarySet);
     }
-
     namespace indexcgo = milvus::proto::indexcgo;
     indexcgo::BinarySet ret;
 
@@ -265,15 +272,12 @@ IndexWrapper::Serialize() {
         binary->set_key(key);
         binary->set_value(value->data.get(), value->size);
     }
-
     std::string serialized_data;
     auto ok = ret.SerializeToString(&serialized_data);
     AssertInfo(ok, "[IndexWrapper]Can't serialize data to string");
-
     auto binary = std::make_unique<IndexWrapper::Binary>();
     binary->data.resize(serialized_data.length());
     memcpy(binary->data.data(), serialized_data.c_str(), serialized_data.length());
-
     return binary;
 }
 
@@ -282,10 +286,8 @@ IndexWrapper::Load(const char* serialized_sliced_blob_buffer, int32_t size) {
     namespace indexcgo = milvus::proto::indexcgo;
     auto data = std::string(serialized_sliced_blob_buffer, size);
     indexcgo::BinarySet blob_buffer;
-
     auto ok = blob_buffer.ParseFromString(data);
     AssertInfo(ok, "[IndexWrapper]Can't parse data from string to blob_buffer");
-
     milvus::knowhere::BinarySet binarySet;
     for (auto i = 0; i < blob_buffer.datas_size(); i++) {
         const auto& binary = blob_buffer.datas(i);
@@ -295,7 +297,6 @@ IndexWrapper::Load(const char* serialized_sliced_blob_buffer, int32_t size) {
         bptr->size = binary.value().length();
         binarySet.Append(binary.key(), bptr);
     }
-
     index_->Load(binarySet);
 }
 
@@ -305,6 +306,7 @@ IndexWrapper::get_index_type() {
     // knowhere bug here
     // the index_type of all ivf-based index will change to ivf flat after loaded
     auto type = get_config_by_name<std::string>("index_type");
+    std::cout << "type : "<<type.value()<<std::endl;
     return type.has_value() ? type.value() : knowhere::IndexEnum::INDEX_FAISS_IVFPQ;
 }
 
@@ -362,13 +364,11 @@ IndexWrapper::QueryImpl(const knowhere::DatasetPtr& dataset, const knowhere::Con
     if (is_in_nm_list(index_type)) {
         std::call_once(raw_data_loaded_, load_raw_data_closure);
     }
-
     auto res = index_->Query(dataset, conf, nullptr);
     auto ids = res->Get<int64_t*>(milvus::knowhere::meta::IDS);
     auto distances = res->Get<float*>(milvus::knowhere::meta::DISTANCE);
     auto nq = dataset->Get<int64_t>(milvus::knowhere::meta::ROWS);
     auto k = config_[milvus::knowhere::meta::TOPK].get<int64_t>();
-
     auto query_res = std::make_unique<IndexWrapper::QueryResult>();
     query_res->nq = nq;
     query_res->topk = k;
@@ -376,7 +376,6 @@ IndexWrapper::QueryImpl(const knowhere::DatasetPtr& dataset, const knowhere::Con
     query_res->distances.resize(nq * k);
     memcpy(query_res->ids.data(), ids, sizeof(int64_t) * nq * k);
     memcpy(query_res->distances.data(), distances, sizeof(float) * nq * k);
-
     return std::move(query_res);
 }
 

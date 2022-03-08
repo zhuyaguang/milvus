@@ -71,8 +71,8 @@ const (
 	R 			   = 200
 	RANGE 		   = 40
 	PL             = 50
-	B              = 1.0
-	M_NANG 		   = 1.0
+	B              = 0.6
+	M_NANG 		   = 0.6
 )
 
 type testCase struct {

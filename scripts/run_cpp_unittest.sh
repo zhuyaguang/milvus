@@ -52,11 +52,11 @@ for UNITTEST_DIR in "${UNITTEST_DIRS[@]}"; do
 done
 
 # run cwrapper unittest
-#if [ -f ${CWRAPPER_UNITTEST} ];then
-#  echo "Running cwrapper unittest: ${CWRAPPER_UNITTEST}"
-#  ${CWRAPPER_UNITTEST}
-#  if [ $? -ne 0 ]; then
-#      echo ${CWRAPPER_UNITTEST} " run failed"
-#      exit 1
-#  fi
-#fi
+if [ -f ${CWRAPPER_UNITTEST} ];then
+  echo "Running cwrapper unittest: ${CWRAPPER_UNITTEST}"
+  ${CWRAPPER_UNITTEST}
+  if [ $? -ne 0 ]; then
+      echo ${CWRAPPER_UNITTEST} " run failed"
+      exit 1
+  fi
+fi
