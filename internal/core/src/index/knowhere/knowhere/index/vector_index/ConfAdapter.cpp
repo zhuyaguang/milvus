@@ -77,16 +77,8 @@ static const std::vector<std::string> METRICS{knowhere::Metric::L2, knowhere::Me
 
 bool
 ConfAdapter::CheckTrain(Config& oricfg, const IndexMode mode) {
-    std::cout<<oricfg<<std::endl;
-    std::cout<<"111111111111"<<std::endl;
-    std::cout << "dim : "<<oricfg["dim"].get<int64_t>()<<std::endl;
-    std::cout<<"222222222222"<<std::endl; 
     CheckIntByRange(knowhere::meta::DIM, DEFAULT_MIN_DIM, DEFAULT_MAX_DIM);
-    std::cout<<"333333333333"<<std::endl;
-    std::cout << "metric_type : "<< oricfg["metric_type"].get<std::string>()<<std::endl; 
-    std::cout<<"444444444444"<<std::endl;
     CheckStrByValues(knowhere::Metric::TYPE, METRICS);
-    std::cout<<"555555555555"<<std::endl;
     return true;
 }
 
@@ -94,11 +86,7 @@ bool
 ConfAdapter::CheckSearch(Config& oricfg, const IndexType type, const IndexMode mode) {
     const int64_t DEFAULT_MIN_K = 1;
     const int64_t DEFAULT_MAX_K = 16384;
-    std::cout<<"111111111111"<<std::endl;
-    std::cout << "TOPK : "<<oricfg["k"].get<int64_t>()<<std::endl;
-    std::cout<<"222222222222"<<std::endl; 
     CheckIntByRange(knowhere::meta::TOPK, DEFAULT_MIN_K - 1, DEFAULT_MAX_K);
-    std::cout<<"333333333333"<<std::endl;
     return true;
 }
 

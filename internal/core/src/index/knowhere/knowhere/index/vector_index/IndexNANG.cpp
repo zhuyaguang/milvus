@@ -56,26 +56,26 @@ IndexNANG::Load(const BinarySet& index_binary) {
 
 void
 IndexNANG::BuildAll(const DatasetPtr& origin, const Config& config) {
-    std::cout<<"config : "<< config<<std::endl;
+    //std::cout<<"config : "<< config<<std::endl;
     efanna2e::Parameters paras;
-    paras.Set<unsigned>("K", std::stoi(config[knowhere::IndexParams::K].get<std::string>()));
-    std::cout<<"K : "<<paras.Get<unsigned>("K")<<std::endl;
-    paras.Set<unsigned>("L", std::stoi(config[knowhere::IndexParams::L].get<std::string>()));
-    std::cout<<"L : "<<paras.Get<unsigned>("L")<<std::endl;
-    paras.Set<unsigned>("iter", std::stoi(config[knowhere::IndexParams::iter].get<std::string>()));
-    std::cout<<"iter : "<<paras.Get<unsigned>("iter")<<std::endl;
-    paras.Set<unsigned>("S",std::stoi(config[knowhere::IndexParams::S].get<std::string>()));
-    std::cout<<"S : "<<paras.Get<unsigned>("S")<<std::endl;
-    paras.Set<unsigned>("R", std::stoi(config[knowhere::IndexParams::R].get<std::string>()));
-    std::cout<<"R : "<<paras.Get<unsigned>("R")<<std::endl;
-    paras.Set<unsigned>("RANGE", std::stoi(config[knowhere::IndexParams::RANGE].get<std::string>()));
-    std::cout<<"RANGE : "<<paras.Get<unsigned>("RANGE")<<std::endl;
-    paras.Set<unsigned>("PL", std::stoi(config[knowhere::IndexParams::PL].get<std::string>()));
-    std::cout<<"PL : "<<paras.Get<unsigned>("PL")<<std::endl;
-    paras.Set<float>("B", std::stof(config[knowhere::IndexParams::B].get<std::string>()));
-    std::cout<<"B : "<<paras.Get<float>("B")<<std::endl;
-    paras.Set<float>("M", std::stof(config[knowhere::IndexParams::M_NANG].get<std::string>()));
-    std::cout<<"M : "<<paras.Get<float>("M")<<std::endl;
+    paras.Set<unsigned>("K", config[knowhere::IndexParams::K].get<int64_t>());
+    //std::cout<<"K : "<<paras.Get<unsigned>("K")<<std::endl;
+    paras.Set<unsigned>("L", config[knowhere::IndexParams::L].get<int64_t>());
+    //std::cout<<"L : "<<paras.Get<unsigned>("L")<<std::endl;
+    paras.Set<unsigned>("iter", config[knowhere::IndexParams::iter].get<int64_t>());
+    //std::cout<<"iter : "<<paras.Get<unsigned>("iter")<<std::endl;
+    paras.Set<unsigned>("S",config[knowhere::IndexParams::S].get<int64_t>());
+    //std::cout<<"S : "<<paras.Get<unsigned>("S")<<std::endl;
+    paras.Set<unsigned>("R", config[knowhere::IndexParams::R].get<int64_t>());
+    //std::cout<<"R : "<<paras.Get<unsigned>("R")<<std::endl;
+    paras.Set<unsigned>("RANGE", config[knowhere::IndexParams::RANGE].get<int64_t>());
+    //std::cout<<"RANGE : "<<paras.Get<unsigned>("RANGE")<<std::endl;
+    paras.Set<unsigned>("PL",config[knowhere::IndexParams::PL].get<int64_t>());
+    //std::cout<<"PL : "<<paras.Get<unsigned>("PL")<<std::endl;
+    paras.Set<float>("B", config[knowhere::IndexParams::B].get<float>());
+    //std::cout<<"B : "<<paras.Get<float>("B")<<std::endl;
+    paras.Set<float>("M", config[knowhere::IndexParams::M_NANG].get<float>());
+    //std::cout<<"M : "<<paras.Get<float>("M")<<std::endl;
     
     DatasetPtr dataset = origin;
     GET_TENSOR_DATA_DIM(dataset)
@@ -87,7 +87,7 @@ IndexNANG::BuildAll(const DatasetPtr& origin, const Config& config) {
 DatasetPtr
 IndexNANG::Query(const DatasetPtr& dataset_ptr, const Config& config,const faiss::BitsetView bitset) {
     efanna2e::Parameters paras;
-    paras.Set<unsigned>("L_search", std::stoi(config[knowhere::IndexParams::search_L].get<std::string>()));
+    paras.Set<unsigned>("L_search", config[knowhere::IndexParams::search_L].get<int64_t>());
     GET_TENSOR_DATA_DIM(dataset_ptr);
     int search_k =  config[knowhere::meta::TOPK].get<int>();
     std::vector<std::vector<unsigned>> res(rows);

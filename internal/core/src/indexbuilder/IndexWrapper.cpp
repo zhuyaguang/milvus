@@ -28,19 +28,13 @@ namespace milvus::indexbuilder {
 IndexWrapper::IndexWrapper(const char* serialized_type_params, const char* serialized_index_params) {
     type_params_ = std::string(serialized_type_params);
     index_params_ = std::string(serialized_index_params);
-    std::cout<<"before parse() in IndexWrapper.cpp"<<std::endl;
     parse();
-    std::cout<<"after parse() in IndexWrapper.cpp"<<std::endl;
     auto index_mode = get_index_mode();
     auto index_type = get_index_type();
-    std::cout<<"index_type : "<<index_type<<std::endl;
     auto metric_type = get_metric_type();
-    std::cout<<"metric_type : "<<metric_type<<std::endl;
     AssertInfo(!is_unsupported(index_type, metric_type), index_type + " doesn't support metric: " + metric_type);
 
-    std::cout<<"before CreateVecIndex() in IndexWrapper.cpp"<<std::endl;
     index_ = knowhere::VecIndexFactory::GetInstance().CreateVecIndex(get_index_type(), index_mode);
-    std::cout<<"after CreateVecIndex() in IndexWrapper.cpp"<<std::endl;
 
     AssertInfo(index_ != nullptr, "[IndexWrapper]Index is null after create index");
 }
@@ -99,6 +93,7 @@ IndexWrapper::parse_impl(const std::string& serialized_params_str, knowhere::Con
     check_parameter<int>(conf, milvus::knowhere::IndexParams::PL, stoi_closure, std::nullopt);
     check_parameter<float>(conf, milvus::knowhere::IndexParams::B, stof_closure, std::nullopt);
     check_parameter<float>(conf, milvus::knowhere::IndexParams::M_NANG, stof_closure, std::nullopt);
+    check_parameter<int>(conf, milvus::knowhere::IndexParams::search_L, stoi_closure, std::nullopt);
 
     /************************** Annoy Params *****************************/
     check_parameter<int>(conf, milvus::knowhere::IndexParams::n_trees, stoi_closure, std::nullopt);
@@ -132,11 +127,8 @@ IndexWrapper::parse() {
 
     parse_impl<indexcgo::TypeParams>(type_params_, type_config_);
     parse_impl<indexcgo::IndexParams>(index_params_, index_config_);
-
-    std::cout<<"before update() in IndexWrapper.cpp"<<std::endl;
     config_.update(type_config_);  // just like dict().update in Python, amazing
     config_.update(index_config_);
-    std::cout<<"after update() in IndexWrapper.cpp"<<std::endl;
 }
 
 template <typename T>
@@ -174,7 +166,6 @@ IndexWrapper::dim() {
 void
 IndexWrapper::BuildWithoutIds(const knowhere::DatasetPtr& dataset) {
     auto index_type = get_index_type();
-    std::cout<<"index_type123 : "<< index_type<<std::endl;
     auto index_mode = get_index_mode();
     config_[knowhere::meta::ROWS] = dataset->Get<int64_t>(knowhere::meta::ROWS);
     if (index_type == knowhere::IndexEnum::INDEX_FAISS_IVFPQ) {
@@ -306,7 +297,6 @@ IndexWrapper::get_index_type() {
     // knowhere bug here
     // the index_type of all ivf-based index will change to ivf flat after loaded
     auto type = get_config_by_name<std::string>("index_type");
-    std::cout << "type : "<<type.value()<<std::endl;
     return type.has_value() ? type.value() : knowhere::IndexEnum::INDEX_FAISS_IVFPQ;
 }
 

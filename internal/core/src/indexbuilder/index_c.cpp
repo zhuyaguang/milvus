@@ -30,13 +30,9 @@ class CGODebugUtils {
 CStatus
 CreateIndex(const char* serialized_type_params, const char* serialized_index_params, CIndex* res_index) {
     auto status = CStatus();
-    std::cout<<"serialized_type_params : "<<serialized_index_params<<std::endl;
-    std::cout<<"serialized_index_params : "<<serialized_index_params<<std::endl;
     try {
-        std::cout<<"before create IndexWrapper in index_c.cpp"<<std::endl;
         auto index =
             std::make_unique<milvus::indexbuilder::IndexWrapper>(serialized_type_params, serialized_index_params);
-        std::cout<<"after create IndexWrapper in index_c.cpp"<<std::endl;
         *res_index = index.release();
         status.error_code = Success;
         status.error_msg = "";
